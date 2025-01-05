@@ -18,11 +18,12 @@ def maximize_pto(days, total_pto_hours, holidays):
     sorted_days = sorted(
         [day for day in days if day.is_workday],
         key=lambda d: (
-            d.date - timedelta(days=1) in holidays or d.date + timedelta(days=1) in holidays,  # Next to a holiday
+            d.date - timedelta(days=1) in holidays
+            or d.date + timedelta(days=1) in holidays,  # Next to a holiday
             d.date.weekday() == 4,  # Fridays (for long weekends)
-            d.hours  # Lower-hour workdays first
+            d.hours,  # Lower-hour workdays first
         ),
-        reverse=True  # Higher priority first
+        reverse=True,  # Higher priority first
     )
 
     for i, day in enumerate(sorted_days):

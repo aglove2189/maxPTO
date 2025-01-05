@@ -15,16 +15,18 @@ if __name__ == "__main__":
     current_year = datetime.now().year
     years = list(range(current_year - 10, current_year + 11))
     year = cols[0].selectbox("Select Year", years, index=len(years) // 2)
-    pto_hours = cols[1].number_input("PTO Hours", value=160, min_value=1, max_value=52*40)
+    pto_hours = cols[1].number_input("PTO Hours", value=160, min_value=1, max_value=52 * 40)
 
     with st.expander("Work Schedule"):
-        monday = st.number_input("Monday", value=8.75, min_value=0., max_value=24., step=1.)
-        tuesday = st.number_input("Tuesday", value=8.75, min_value=0., max_value=24., step=1.)
-        wednesday = st.number_input("Wednesday", value=8.75, min_value=0., max_value=24., step=1.)
-        thursday = st.number_input("Thursday", value=8.75, min_value=0., max_value=24., step=1.)
-        friday = st.number_input("Friday", value=5., min_value=0., max_value=24., step=1.)
-        saturday = st.number_input("Saturday", value=0., min_value=0., max_value=24., step=1.)
-        sunday = st.number_input("Sunday", value=0., min_value=0., max_value=24., step=1.)
+        monday = st.number_input("Monday", value=8.75, min_value=0.0, max_value=24.0, step=1.0)
+        tuesday = st.number_input("Tuesday", value=8.75, min_value=0.0, max_value=24.0, step=1.0)
+        wednesday = st.number_input(
+            "Wednesday", value=8.75, min_value=0.0, max_value=24.0, step=1.0
+        )
+        thursday = st.number_input("Thursday", value=8.75, min_value=0.0, max_value=24.0, step=1.0)
+        friday = st.number_input("Friday", value=5.0, min_value=0.0, max_value=24.0, step=1.0)
+        saturday = st.number_input("Saturday", value=0.0, min_value=0.0, max_value=24.0, step=1.0)
+        sunday = st.number_input("Sunday", value=0.0, min_value=0.0, max_value=24.0, step=1.0)
         work_hours = [monday, tuesday, wednesday, thursday, friday, saturday, sunday]
 
     with st.expander("Holiday Schedule"):
