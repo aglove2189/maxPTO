@@ -6,8 +6,8 @@ class Day:
         self.date = date
         self.is_weekday = date.weekday() < 5
         self.is_holiday = date in country_holidays
-        self.is_workday = self.is_weekday and not self.is_holiday
-        self.hours = work_hours[date.weekday()] if self.is_workday else 0
+        self.hours = work_hours[date.weekday()]
+        self.is_workday = self.hours > 0 and not self.is_holiday
         self.is_pto = False
 
 
