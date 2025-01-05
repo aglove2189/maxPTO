@@ -46,10 +46,7 @@ def maximize_pto(days, total_pto_hours):
     sorted_days = sorted(remaining_days, key=lambda d: (d.hours, d.date.weekday() == 4))
 
     for i, day in enumerate(sorted_days):
-        if remaining_pto <= 0:
-            break
-
-        if not day.is_pto and remaining_pto >= day.hours:
+       if remaining_pto >= day.hours:
             if i + 1 < len(days) and i - 1 >= 0:
                 next_day = days[i + 1]
                 prev_day = days[i - 1]
