@@ -34,7 +34,7 @@ if __name__ == "__main__":
         country_holidays_edited = st.data_editor(country_holidays, num_rows="dynamic")
 
     days = create_days(year, country_holidays_edited, work_hours)
-    optimal_pto_days = sorted(maximize_pto(days, pto_hours, country_holidays_edited))
+    optimal_pto_days = sorted(maximize_pto(days, pto_hours))
 
     data = []
     for i in days:

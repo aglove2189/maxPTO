@@ -1,5 +1,5 @@
 from datetime import date, timedelta
-
+from operator import add, sub
 
 class Day:
     def __init__(self, date, work_hours, country_holidays):
@@ -11,20 +11,39 @@ class Day:
         self.is_pto = False
 
 
-def maximize_pto(days, total_pto_hours, holidays):
+def find_gaps(days, operator=add):
+    gaps = []
+    for i, day in enumerate(days):
+        if day.is_holiday:
+            gap = []
+            for j in range(1, 5):
+                other_day = days[operator(i, j)]
+                if other_day.is_workday:
+                    gap.append(other_day)
+                else:
+                    break
+
+            if len(gap) > 0:
+                gaps.append(gap)
+
+    return gaps
+
+
+def maximize_pto(days, total_pto_hours):
     remaining_pto = total_pto_hours
     pto_days = []
 
-    sorted_days = sorted(
-        [day for day in days if day.is_workday],
-        key=lambda d: (
-            d.date - timedelta(days=1) in holidays
-            or d.date + timedelta(days=1) in holidays,  # Next to a holiday
-            d.date.weekday() == 4,  # Fridays (for long weekends)
-            d.hours,  # Lower-hour workdays first
-        ),
-        reverse=True,  # Higher priority first
-    )
+    gaps = sorted(find_gaps(days) + find_gaps(days, operator=sub), key=len)
+    for gap in gaps:
+        gap_hours = sum([day.hours for day in gap])
+        if gap_hours <= remaining_pto:
+            for day in gap:
+                day.is_pto = True
+                pto_days.append(day.date)
+                remaining_pto -= day.hours
+
+    remaining_days = [day for day in days if day.is_workday and not day.is_pto]
+    sorted_days = sorted(remaining_days, key=lambda d: (d.hours, d.date.weekday() == 4))
 
     for i, day in enumerate(sorted_days):
         if remaining_pto <= 0:
