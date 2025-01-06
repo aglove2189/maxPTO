@@ -59,6 +59,24 @@ def maximize_pto(days, total_pto_hours):
     return pto_days
 
 
+def find_consecutive_days(days):
+    consecutive_days_off = []
+    current_streak = []
+
+    for day in days:
+        if not day.is_workday or day.is_pto or day.is_holiday:
+            current_streak.append(day.date)
+        else:
+            if current_streak:
+                consecutive_days_off.append(current_streak)
+                current_streak = []
+
+    if current_streak:
+        consecutive_days_off.append(current_streak)
+
+    return [i for i in consecutive_days_off if len(i) > 2]
+
+
 def create_days(year, holidays, work_hours):
     start_dt = date(year, 1, 1)
     end_dt = date(year + 1, 1, 1)
